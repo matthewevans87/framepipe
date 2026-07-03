@@ -4,7 +4,7 @@
 class GrayscaleTransform : public ImageTransform
 {
 public:
-    void apply(Image &image) override;
+    void apply(Frame &frame) override;
     std::string name() const
     {
         return "grayscale";

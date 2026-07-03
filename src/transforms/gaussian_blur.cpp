@@ -24,20 +24,20 @@ GaussianBlurTransform::GaussianBlurTransform(int radius)
 {
 }
 
-void GaussianBlurTransform::apply(Image &image)
+void GaussianBlurTransform::apply(Frame &frame)
 {
     // Separable blur: horizontal pass then vertical pass
 
     // Only operates on single channel (grayscale) images for simplicity
-    if (image.channels() > 1)
+    if (frame.channels > 1)
         return;
 
-    int w = image.width();
-    int h = image.height();
+    int w = frame.width;
+    int h = frame.height;
     auto kernel = make_kernel(radius_);
     int r = radius_;
-    Image h_pass_result(w, h, 1); // intermediate after horizontal pass
-    Image v_pass_result(w, h, 1); // final after vertical pass
+    Frame h_pass_result(w, h, 1); // intermediate after horizontal pass
+    Frame v_pass_result(w, h, 1); // final after vertical pass
 
     // Horizontal pass
     for (int y = 0; y < h; ++y)
@@ -48,7 +48,7 @@ void GaussianBlurTransform::apply(Image &image)
             for (int k = -r; k <= r; ++k)
             {
                 int sx = std::clamp(x + k, 0, w - 1); // clamp to border
-                acc += kernel[k + r] * image.at(sx, y, 0);
+                acc += kernel[k + r] * frame.at(sx, y, 0);
             }
             h_pass_result.at(x, y, 0) = static_cast<uint8_t>(std::clamp(acc, 0.0f, 255.0f));
         }
@@ -69,5 +69,5 @@ void GaussianBlurTransform::apply(Image &image)
         }
     }
 
-    image = std::move(v_pass_result);
+    frame = std::move(v_pass_result);
 }

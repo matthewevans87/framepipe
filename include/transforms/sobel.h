@@ -5,5 +5,5 @@ class SobelTransform : public ImageTransform
 {
 public:
     std::string name() const override { return "sobel"; }
-    void apply(Image &image) override;
+    void apply(Frame &frame) override;
 };

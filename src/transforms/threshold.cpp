@@ -1,22 +1,22 @@
 #include "transforms/threshold.h"
-#include "image.h"
+#include "frame.h"
 
 ThresholdTransform::ThresholdTransform(int threshold)
     : threshold_(threshold)
 {
 }
 
-void ThresholdTransform::apply(Image &image)
+void ThresholdTransform::apply(Frame &frame)
 {
-    int w = image.width();
-    int h = image.height();
-    Image result(w, h, 1);
+    int w = frame.width;
+    int h = frame.height;
+    Frame result(w, h, 1);
 
     for (int x = 0; x < w; ++x)
     {
         for (int y = 0; y < h; ++y)
         {
-            uint8_t val = image.at(x, y, 0);
+            uint8_t val = frame.at(x, y, 0);
             if (val < threshold_)
             {
                 val = 0;
@@ -25,5 +25,5 @@ void ThresholdTransform::apply(Image &image)
         }
     }
 
-    image = std::move(result);
+    frame = std::move(result);
 }

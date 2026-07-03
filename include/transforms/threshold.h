@@ -6,7 +6,7 @@ class ThresholdTransform : public ImageTransform
 public:
     ThresholdTransform(int threshold);
     std::string name() const override { return "threshold"; }
-    void apply(Image &image) override;
+    void apply(Frame &frame) override;
     int threshold() const { return threshold_; }
 
 private:

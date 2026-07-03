@@ -8,6 +8,6 @@ private:
 
 public:
     GaussianBlurTransform(int radius);
-    void apply(Image &image) override;
+    void apply(Frame &frame) override;
     std::string name() const override { return "gaussianblur"; }
 };

@@ -5,19 +5,20 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(OpenCV REQUIRED)
+find_package(Threads REQUIRED)
 
 add_executable(framepipe
     src/main.cpp
-    # src/capture.cpp
-    # src/process.cpp
-    # src/image.cpp
-    # src/transforms/grayscale.cpp
-    # src/transforms/gaussian_blur.cpp
-    # src/transforms/sobel.cpp
-    # src/transforms/threshold.cpp
+    src/capture.cpp
+    src/pipeline.cpp
+    src/process.cpp
+    src/transforms/grayscale.cpp
+    src/transforms/gaussian_blur.cpp
+    src/transforms/sobel.cpp
+    src/transforms/threshold.cpp
     )
 target_include_directories(framepipe PRIVATE include ${OpenCV_INCLUDE_DIRS})
-target_link_libraries(framepipe PRIVATE ${OpenCV_LIBS})
+target_link_libraries(framepipe PRIVATE ${OpenCV_LIBS} Threads::Threads)
 
 # --- tests ---
 include(FetchContent)
