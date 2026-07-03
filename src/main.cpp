@@ -44,6 +44,15 @@ static void add_transform(TransformPipeline &pipeline, const std::string &arg)
 int main(int argc, char *argv[])
 {
 
+    if (argc < 2)
+    {
+        std::cerr << "Usage: " << argv[0] << " <camera_id> [transforms...]\n"
+                  << "Transforms: grayscale | blur[:radius] | sobel | threshold:<value>\n"
+                  << "Press 'q' in the display window to quit.\n"
+                  << "Example:  " << argv[0] << " 0 grayscale blur:5 sobel threshold:10\n";
+        return 1;
+    }
+
     int camera_id;
     try
     {
@@ -51,7 +60,8 @@ int main(int argc, char *argv[])
     }
     catch (const std::exception &e)
     {
-        std::cerr << "Error parsing Camera Id: " << argv[1];
+        std::cerr << "Error parsing Camera Id: " << argv[1] << "\n";
+        return 1;
     }
 
     SharedState state;
