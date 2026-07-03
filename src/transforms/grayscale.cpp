@@ -28,4 +28,5 @@ void GrayscaleTransform::apply(Frame &frame)
     }
 
     frame = std::move(result); // move assignment -- no copy
+    frame.channels = 1;
 }

@@ -20,7 +20,7 @@ struct Frame
     std::vector<uint8_t> data; // raw BGR pixel bytes (OpenCV format)
     int width = 0;
     int height = 0;
-    int channels = 3;
+    int channels = 0;
     uint64_t sequence_id = 0; // monotonically increasing frame counter
     std::chrono::steady_clock::time_point timestamp;
 
