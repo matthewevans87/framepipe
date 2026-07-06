@@ -4,6 +4,22 @@ project(framepipe CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Some CLT installs on macOS omit usr/include/c++/v1 even though libc++ headers
+# exist in the active SDK. Add a guarded fallback include path in that case.
+if(APPLE)
+    set(_clt_iostream "/Library/Developer/CommandLineTools/usr/include/c++/v1/iostream")
+    if(NOT EXISTS "${_clt_iostream}")
+        execute_process(
+            COMMAND xcrun --sdk macosx --show-sdk-path
+            OUTPUT_VARIABLE _sdk_path
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+            ERROR_QUIET)
+        if(_sdk_path AND EXISTS "${_sdk_path}/usr/include/c++/v1")
+            add_compile_options(-isystem "${_sdk_path}/usr/include/c++/v1")
+        endif()
+    endif()
+endif()
+
 find_package(OpenCV REQUIRED)
 find_package(Threads REQUIRED)
 
