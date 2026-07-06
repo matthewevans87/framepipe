@@ -21,7 +21,9 @@ void process_thread(SharedState &state, TransformPipeline &pipeline)
             state.buffer.pop(frame);
         }
         pipeline.run(frame);
-        cv::Mat mat(frame.height, frame.width, CV_8UC3, frame.data.data());
+
+        int cv_type = CV_8UC(frame.channels);
+        cv::Mat mat(frame.height, frame.width, cv_type, frame.data.data());
         cv::imshow("framepipe", mat);
         if (cv::waitKey(1) == 'q')
         {

@@ -3,7 +3,11 @@
 
 void capture_thread(SharedState &state, int camera_id)
 {
-    cv::VideoCapture cap(camera_id);
+    cv::VideoCapture cap(camera_id, cv::CAP_V4L2);
+    if (!cap.isOpened())
+    {
+        cap.open(camera_id);
+    }
     if (!cap.isOpened())
     {
         throw std::runtime_error("Unable to open camera: " + std::to_string(camera_id));
